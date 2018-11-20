@@ -18,7 +18,6 @@ try:
         my_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         my_socket.connect((IP, SIPPORT))
 
-        print("Enviando: " + LINE)
         if METODO == "INVITE":
             print("Enviando: " + LINE)
             my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
