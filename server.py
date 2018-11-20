@@ -34,7 +34,7 @@ class EchoHandler(socketserver.DatagramRequestHandler):
                 self.wfile.write(b"SIP/2.0 200 OK")
 
             elif line.decode('utf-8') == ACK:
-                aEjecutar = ’mp32rtp -i 127.0.0.1 -p 23032 < ’ + AUDIO
+                aEjecutar = 'mp32rtp -i 127.0.0.1 -p 23032 < ' + AUDIO
                 print("Vamos a ejecutar", aEjecutar)
                 os.system(aEjecutar)
 
