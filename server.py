@@ -18,11 +18,11 @@ class EchoHandler(socketserver.DatagramRequestHandler):
     def handle(self):
 
         line = self.rfile.read().decode('utf-8').split()[0]
-        print("El cliente nos manda " + line.decode('utf-8'))
-        diferente = line != "INVITE" or line != "BYE" or line != "ACK"
+        print("El cliente nos manda " + line)
+        diferente = (line != "INVITE") or (line != "BYE") or (line != "ACK")
 
         if line == "INVITE":
-            self.wfile.write(b" SIP/2.0 100 Trying")
+            self.wfile.write(b"SIP/2.0 100 Trying")
             self.wfile.write(b" SIP/2.0 180 Ringing")
             self.wfile.write(b" SIP/2.0 200 OK")
 
@@ -32,13 +32,13 @@ class EchoHandler(socketserver.DatagramRequestHandler):
             os.system(aEjecutar)
 
         elif line == "BYE":
-            self.wfile.write(b" SIP/2.0 200 OK")
+            self.wfile.write(b"SIP/2.0 200 OK")
 
         elif diferente:
-            self.wfile.write(b" SIP/2.0 405 Method Not Allowed")
+            self.wfile.write(b"SIP/2.0 405 Method Not Allowed")
 
         else:
-            self.wfile.write(b" SIP/2.0 400 Bad Request")
+            self.wfile.write(b"SIP/2.0 400 Bad Request")
 
 if __name__ == "__main__":
     # Creamos servidor de eco y escuchamos

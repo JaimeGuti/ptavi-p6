@@ -28,12 +28,13 @@ try:
             my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
             data = my_socket.recv(1024)
 
-        mens_ack = data.decode('utf-8').split('\r\n\r\n')
-        if mens_ack == "SIP/2.0 200 OK":
+        mens_ack = data.decode('utf-8')
+        if mens_ack == "SIP/2.0 100 Trying SIP/2.0 180 Ringing SIP/2.0 200 OK":
             ack_line = 'ACK' + " sip:" + RECEPTOR + "@"
             ack_line += IP + " SIP/2.0\r\n\r\n"
-            print("Enviando: " + ack_line)
+            print(ack_line)
             my_socket.send(bytes(ack_line, 'utf-8') + b'\r\n')
+            data = my_socket.recv(1024)
 
         print('Recibido -- ', data.decode('utf-8'))
         print("Terminando socket...")
