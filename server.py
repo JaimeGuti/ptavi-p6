@@ -16,37 +16,29 @@ except:
 class EchoHandler(socketserver.DatagramRequestHandler):
 
     def handle(self):
-        # Escribe dirección y puerto del cliente (de tupla client_address)
-        while 1:
-            # Leyendo línea a línea lo que nos envía el cliente
-            line = self.rfile.read()
-            print("El cliente nos manda " + line.decode('utf-8'))
-            diferente = line.decode('utf-8') != INVITE
-            diferente += line.decode('utf-8') != BYE
-            diferente += line.decode('utf-8') != ACK
 
-            if line.decode('utf-8') == INVITE:
-                self.wfile.write(b"SIP/2.0 100 Trying")
-                self.wfile.write(b"SIP/2.0 180 Ringing")
-                self.wfile.write(b"SIP/2.0 200 OK")
+        line = self.rfile.read().decode('utf-8').split()[0]
+        print("El cliente nos manda " + line.decode('utf-8'))
+        diferente = line != "INVITE" or line != "BYE" or line != "ACK"
 
-            elif line.decode('utf-8') == ACK:
-                aEjecutar = 'mp32rtp -i 127.0.0.1 -p 23032 < ' + AUDIO
-                print("Vamos a ejecutar", aEjecutar)
-                os.system(aEjecutar)
+        if line == "INVITE":
+            self.wfile.write(b" SIP/2.0 100 Trying")
+            self.wfile.write(b" SIP/2.0 180 Ringing")
+            self.wfile.write(b" SIP/2.0 200 OK")
 
-            elif line.decode('utf-8') == BYE:
-                self.wfile.write(b"SIP/2.0 200 OK")
+        elif line == "ACK":
+            aEjecutar = 'mp32rtp -i 127.0.0.1 -p 23032 < ' + AUDIO
+            print("Vamos a ejecutar", aEjecutar)
+            os.system(aEjecutar)
 
-            elif diferente:
-                self.wfile.write(b"SIP/2.0 405 Method Not Allowed")
+        elif line == "BYE":
+            self.wfile.write(b" SIP/2.0 200 OK")
 
-            else:
-                self.wfile.write(b"SIP/2.0 400 Bad Request")
+        elif diferente:
+            self.wfile.write(b" SIP/2.0 405 Method Not Allowed")
 
-            # Si no hay más líneas salimos del bucle infinito
-            if not line:
-                break
+        else:
+            self.wfile.write(b" SIP/2.0 400 Bad Request")
 
 if __name__ == "__main__":
     # Creamos servidor de eco y escuchamos
