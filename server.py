@@ -6,6 +6,7 @@ Clase (y programa principal) para un servidor de eco en UDP simple
 
 import socketserver
 import sys
+import os
 
 try:
     IP = sys.argv[1]
@@ -31,6 +32,11 @@ class EchoHandler(socketserver.DatagramRequestHandler):
                 self.wfile.write(b"SIP/2.0 100 Trying")
                 self.wfile.write(b"SIP/2.0 180 Ringing")
                 self.wfile.write(b"SIP/2.0 200 OK")
+
+            elif line.decode('utf-8') == ACK:
+                aEjecutar = ’mp32rtp -i 127.0.0.1 -p 23032 < ’ + AUDIO
+                print("Vamos a ejecutar", aEjecutar)
+                os.system(aEjecutar)
 
             elif line.decode('utf-8') == BYE:
                 self.wfile.write(b"SIP/2.0 200 OK")
