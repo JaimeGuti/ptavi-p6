@@ -1,13 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-"""
-Programa cliente que abre un socket a un servidor
-"""
 
 import socket
 import sys
 
-# Cliente UDP simple.
 try:
     METODO = sys.argv[1].upper()
     RECEPTOR = sys.argv[2].split("@")[0]
@@ -24,12 +20,12 @@ try:
 
         print("Enviando: " + LINE)
         if METODO == "INVITE":
-            print(LINE)
+            print("Enviando: " + LINE)
             my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
             data = my_socket.recv(1024)
 
         elif METODO == "BYE":
-            print(LINE)
+            print("Enviando: " + LINE)
             my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
             data = my_socket.recv(1024)
 
@@ -37,6 +33,7 @@ try:
         if mens_ack == "SIP/2.0 200 OK":
             ack_line = 'ACK' + " sip:" + RECEPTOR + "@"
             ack_line += IP + " SIP/2.0\r\n\r\n"
+            print("Enviando: " + ack_line)
             my_socket.send(bytes(ack_line, 'utf-8') + b'\r\n')
 
         print('Recibido -- ', data.decode('utf-8'))
