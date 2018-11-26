@@ -40,5 +40,5 @@ try:
         print("Terminando socket...")
 
     print("Fin.")
-except:
+except(IndexError, ValueError):
     sys.exit("Usage python3 client.py method receiver@IP:SIPport")
