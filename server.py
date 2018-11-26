@@ -9,7 +9,7 @@ try:
     IP = sys.argv[1]
     PORT = int(sys.argv[2])
     AUDIO = sys.argv[3]
-except:
+except(IndexError, ValueError):
     sys.exit("Usage: python3 server.py IP port audio_file")
 
 
