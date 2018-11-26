@@ -40,7 +40,7 @@ class EchoHandler(socketserver.DatagramRequestHandler):
         else:
             self.wfile.write(b"SIP/2.0 400 Bad Request")
 
-            
+
 if __name__ == "__main__":
     # Creamos servidor de eco y escuchamos
     serv = socketserver.UDPServer(('', PORT), EchoHandler)
